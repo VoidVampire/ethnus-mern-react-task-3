@@ -1,25 +1,40 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
-function App() {
+const ColorPicker = ({ colors }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedColor, setSelectedColor] = useState('');
+
+  const handleColorClick = (color) => {
+    setSelectedColor(color);
+    setIsOpen(false);
+    document.getElementById('bbody').style.backgroundColor = color;
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="color-picker">
+      <button onClick={() => setIsOpen(!isOpen)} style={{backgroundColor: '#4fb04f', color: 'white' }}>
+        Pick a color
+      </button>
+      {isOpen && (
+        <div className="color-list">
+          {colors.map((color, index) => (
+            <div
+              key={index}
+              className="color-swatch"
+              style={{ backgroundColor: color }}
+              onClick={() => handleColorClick(color)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
+};
+
+function App() {
+  const colors = ['red', 'green', 'blue', 'purple', 'pink', 'orange', 'brown', 'gray'];
+  return <ColorPicker colors={colors} />;
 }
 
 export default App;
